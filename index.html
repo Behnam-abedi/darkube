@@ -7,9 +7,7 @@
 </head>
 <body>
     <h1>تبدیل گوگل شیت CSV به JSON</h1>
-    <button onclick="fetchAndConvert()">تبدیل</button>
-    <pre id="output"></pre>
-
+    
     <script>
         async function fetchAndConvert() {
             const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE-hwpcN_TUxhnUi-aoO04lZ0u05A88EHHfzNYoYNWjoF3oHyCJdM-_DS6NcS5jJZcObapU8tTCquK/pub?gid=0&single=true&output=csv";
@@ -22,11 +20,10 @@
                 // تبدیل CSV به JSON
                 const jsonData = csvToJson(csvText);
 
-                // نمایش JSON در خروجی
-                document.getElementById("output").textContent = JSON.stringify(jsonData, null, 2);
+                // ذخیره داده‌ها در یک متغیر و نمایش در کنسول
+                console.log(jsonData);
             } catch (error) {
                 console.error("خطا در دریافت یا تبدیل داده‌ها:", error);
-                alert("خطا در دریافت یا تبدیل داده‌ها");
             }
         }
 
@@ -52,6 +49,9 @@
 
             return groupedData; // برگرداندن داده‌های گروه‌بندی شده
         }
+
+        // فراخوانی تابع fetchAndConvert هنگام بارگذاری صفحه
+        window.onload = fetchAndConvert;
     </script>
 </body>
 </html>
