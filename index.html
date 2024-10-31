@@ -6,53 +6,72 @@
     <title>منو ریسپانسیو</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* تنظیمات کلی */
         body {
             font-family: Arial, sans-serif;
-            background: #f4f4f4;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
+            align-items: center;
             padding: 20px;
         }
+
+        /* استایل منوی اصلی */
         .menu-container {
+            width: 100%;
             max-width: 400px;
-            background: #fff;
+            background: #fdfdfb;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             border-radius: 8px;
+            direction: rtl;
+            text-align: right;
         }
+
+        /* عنوان منو */
         .menu-title {
             text-align: center;
             font-size: 24px;
             margin-bottom: 20px;
             font-weight: bold;
         }
+
+        /* استایل دسته‌بندی‌ها */
         .menu-category {
             margin-bottom: 20px;
         }
+
         .category-title {
             font-size: 18px;
+            font-weight: bold;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            font-weight: bold;
+            color: #333;
         }
+
         .category-title i {
             margin-left: 8px;
-            color: #555;
+            color: #888;
         }
+
+        /* استایل آیتم‌های منو */
         .menu-item {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
             border-bottom: 1px solid #ddd;
         }
+
         .menu-item:last-child {
             border-bottom: none;
         }
+
         .menu-item-name {
             font-size: 16px;
             color: #333;
         }
+
         .menu-item-price {
             font-size: 16px;
             color: #666;
@@ -105,14 +124,16 @@
             const menuContainer = document.getElementById("menu");
             menuContainer.innerHTML = "";
 
+            // مرور هر دسته‌بندی و اضافه کردن آیتم‌های آن به منو
             for (const [category, items] of Object.entries(data)) {
-                const iconClass = category.split("-")[1]; // استخراج آیکون از نام دسته‌بندی
+                const [categoryName, iconClass] = category.split("-"); // جدا کردن نام دسته‌بندی و آیکون
+
                 const categoryDiv = document.createElement("div");
                 categoryDiv.className = "menu-category";
 
                 const categoryTitle = document.createElement("div");
                 categoryTitle.className = "category-title";
-                categoryTitle.innerHTML = `<i class="fa-solid ${iconClass}"></i>${category.split("-")[0]}`;
+                categoryTitle.innerHTML = `<i class="fa-solid ${iconClass}"></i>${categoryName}`;
                 categoryDiv.appendChild(categoryTitle);
 
                 items.forEach(item => {
