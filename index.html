@@ -3,25 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبدیل CSV به JSON</title>
+    <title>منو ریسپانسیو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .menu-container {
+            max-width: 400px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .menu-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .menu-category {
+            margin-bottom: 20px;
+        }
+        .category-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        .category-title i {
+            margin-left: 8px;
+            color: #555;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-item-name {
+            font-size: 16px;
+            color: #333;
+        }
+        .menu-item-price {
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>تبدیل گوگل شیت CSV به JSON</h1>
-    
+    <div class="menu-container">
+        <div class="menu-title">منو</div>
+        <div id="menu"></div>
+    </div>
+
     <script>
         async function fetchAndConvert() {
             const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE-hwpcN_TUxhnUi-aoO04lZ0u05A88EHHfzNYoYNWjoF3oHyCJdM-_DS6NcS5jJZcObapU8tTCquK/pub?gid=0&single=true&output=csv";
 
             try {
-                // دریافت محتوای CSV
                 const response = await fetch(csvUrl);
                 const csvText = await response.text();
-
-                // تبدیل CSV به JSON
                 const jsonData = csvToJson(csvText);
-
-                // ذخیره داده‌ها در یک متغیر و نمایش در کنسول
-                console.log(jsonData);
+                renderMenu(jsonData);
             } catch (error) {
                 console.error("خطا در دریافت یا تبدیل داده‌ها:", error);
             }
@@ -30,7 +82,6 @@
         function csvToJson(csvText) {
             const rows = csvText.split("\n");
             const headers = rows[0].split(",");
-
             const groupedData = {};
 
             rows.slice(1).forEach(row => {
@@ -42,15 +93,49 @@
 
                 const category = item["نام دسته بندی"];
                 if (!groupedData[category]) {
-                    groupedData[category] = []; // ایجاد آرایه جدید برای دسته‌بندی جدید
+                    groupedData[category] = [];
                 }
-                groupedData[category].push(item); // اضافه کردن آیتم به آرایه مربوط به دسته‌بندی
+                groupedData[category].push(item);
             });
 
-            return groupedData; // برگرداندن داده‌های گروه‌بندی شده
+            return groupedData;
         }
 
-        // فراخوانی تابع fetchAndConvert هنگام بارگذاری صفحه
+        function renderMenu(data) {
+            const menuContainer = document.getElementById("menu");
+            menuContainer.innerHTML = "";
+
+            for (const [category, items] of Object.entries(data)) {
+                const iconClass = category.split("-")[1]; // استخراج آیکون از نام دسته‌بندی
+                const categoryDiv = document.createElement("div");
+                categoryDiv.className = "menu-category";
+
+                const categoryTitle = document.createElement("div");
+                categoryTitle.className = "category-title";
+                categoryTitle.innerHTML = `<i class="fa-solid ${iconClass}"></i>${category.split("-")[0]}`;
+                categoryDiv.appendChild(categoryTitle);
+
+                items.forEach(item => {
+                    const itemDiv = document.createElement("div");
+                    itemDiv.className = "menu-item";
+
+                    const itemName = document.createElement("span");
+                    itemName.className = "menu-item-name";
+                    itemName.textContent = item["نام آیتم"];
+
+                    const itemPrice = document.createElement("span");
+                    itemPrice.className = "menu-item-price";
+                    itemPrice.textContent = `${item["قیمت"]} تومان`;
+
+                    itemDiv.appendChild(itemName);
+                    itemDiv.appendChild(itemPrice);
+                    categoryDiv.appendChild(itemDiv);
+                });
+
+                menuContainer.appendChild(categoryDiv);
+            }
+        }
+
         window.onload = fetchAndConvert;
     </script>
 </body>
