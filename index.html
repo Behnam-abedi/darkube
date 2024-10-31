@@ -87,6 +87,7 @@
                 const response = await fetch(csvUrl);
                 const csvText = await response.text();
                 const jsonData = csvToJson(csvText);
+                console.log(jsonData)
                 renderMenu(jsonData);
             } catch (error) {
                 console.error("خطا در دریافت یا تبدیل داده‌ها:", error);
