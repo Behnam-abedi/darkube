@@ -34,14 +34,23 @@
             const rows = csvText.split("\n");
             const headers = rows[0].split(",");
 
-            return rows.slice(1).map(row => {
+            const groupedData = {};
+
+            rows.slice(1).forEach(row => {
                 const values = row.split(",");
-                const jsonRow = {};
+                const item = {};
                 headers.forEach((header, i) => {
-                    jsonRow[header.trim()] = values[i] ? values[i].trim() : "";
+                    item[header.trim()] = values[i] ? values[i].trim() : "";
                 });
-                return jsonRow;
+
+                const category = item["نام دسته بندی"];
+                if (!groupedData[category]) {
+                    groupedData[category] = []; // ایجاد آرایه جدید برای دسته‌بندی جدید
+                }
+                groupedData[category].push(item); // اضافه کردن آیتم به آرایه مربوط به دسته‌بندی
             });
+
+            return groupedData; // برگرداندن داده‌های گروه‌بندی شده
         }
     </script>
 </body>
