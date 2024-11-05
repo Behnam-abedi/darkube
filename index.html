@@ -632,8 +632,13 @@ document.addEventListener("DOMContentLoaded", function() {
             updateActiveMenuItem(currentIndex);
         }
     });
-});
 
+    // اسکرول به اولین گزینه بعد از بارگذاری صفحه
+    if (menuItems.length > 0) {
+        updateActiveMenuItem(0); // به اولین گزینه اسکرول کن
+        sections[0].scrollIntoView({ behavior: "smooth" }); // اطمینان حاصل کن که اولین بخش دیده می‌شود
+    }
+});
 
 
         </script>
