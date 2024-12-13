@@ -57,7 +57,7 @@ function renderMenu(menuData) {
             itemName.className = 'item-name';
 
             const itemDescription = document.createElement('p'); // توضیحات
-            itemDescription.textContent = item.description != undefined || item.description ? '( ' + item.description + ' )':'';
+            itemDescription.textContent = item.description != undefined || item.description || item.description != null ? '( ' + item.description + ' )':'';
             itemDescription.className = 'item-description';
 
             // Add name and description to the wrapper
