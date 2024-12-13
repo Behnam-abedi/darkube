@@ -56,7 +56,7 @@ function renderMenu(menuData) {
             itemName.textContent = item.name;
             itemName.className = 'item-name';
 
-            const itemDescription = document.createElement('p'); // توضیحات
+            const itemDescription = document.createElement('span'); // توضیحات
             itemDescription.textContent = item.description != undefined && item.description && item.description != null && item.description != "" ? '( ' + item.description + ' )':'';
             itemDescription.className = 'item-description';
 
